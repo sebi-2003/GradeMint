@@ -1,0 +1,10 @@
+dist/
+.local/
+.env
+.env.*
+!.env.example
+node_modules/
+*.log
+test-results/
+site.tar.gz
+pages/
