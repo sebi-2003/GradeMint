@@ -27,7 +27,8 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public worker data drizzle scripts tests docs .github .openai package.json README.md SECURITY.md .env.example .gitignore index.html app.js styles.css logo.svg
+          git add public worker data drizzle scripts tests docs .openai package.json README.md SECURITY.md .env.example .gitignore index.html app.js styles.css logo.svg
           git rm GradeMint-source.tar.gz
           git commit -m 'Add complete GradeMint source and validate Pages build'
           git push
+
