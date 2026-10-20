@@ -2,7 +2,7 @@
 
 **Prezentare publică:** https://sebi-2003.github.io/GradeMint/
 
-GitHub Pages servește versiunea statică: prezentarea mentorilor, arhiva BAC și un test de probă evaluat în browser. Conturile, întrebările private, programările și e-mailurile sunt dezactivate explicit acolo. Codul platformei complete de mai jos necesită găzduire cu backend și configurarea secretelor.
+GitHub Pages servește versiunea statică: prezentarea mentorilor, arhiva BAC, teste din 30 de exerciții la ambele materii, ghiduri originale și exemple rezolvate pas cu pas. Planul săptămânal se poate tipări și salva opțional în browser. Răspunsurile testelor nu se trimit și nu se salvează. Conturile, întrebările private, programările și e-mailurile necesită găzduire cu backend și configurarea secretelor.
 
 Pentru a reconstrui versiunea statică: `node scripts/build-pages.mjs`; fișierele rezultate în `pages/` se publică la rădăcina site-ului Pages. Nu publicați `.local/`, fișiere `.env` reale sau date ale elevilor.
 
