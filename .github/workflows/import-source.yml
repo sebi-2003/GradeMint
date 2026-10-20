@@ -1,0 +1,33 @@
+name: Import GradeMint source
+on:
+  push:
+    paths: ['GradeMint-source.tar.gz', '.github/workflows/import-source.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    if: github.actor == 'sebi-2003'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Unpack reviewed source and validate
+        run: |
+          test -f GradeMint-source.tar.gz
+          tar -xzf GradeMint-source.tar.gz
+          npm test
+          npm run build
+          npm run validate
+          node scripts/build-pages.mjs
+          cp pages/index.html pages/app.js pages/styles.css pages/logo.svg .
+      - name: Commit organized source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public worker data drizzle scripts tests docs .github .openai package.json README.md SECURITY.md .env.example .gitignore index.html app.js styles.css logo.svg
+          git rm GradeMint-source.tar.gz
+          git commit -m 'Add complete GradeMint source and validate Pages build'
+          git push
