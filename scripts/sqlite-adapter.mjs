@@ -1,1 +1,18 @@
-export function adapter(db){return {prepare(sql){return {bind(...v){return {async first(){return db.prepare(sql).get(...v)||null;},async all(){return {results:db.prepare(sql).all(...v)};},async run(){const r=db.prepare(sql).run(...v);return {meta:{changes:Number(r.changes)}};}};}};},async batch(items){db.exec('BEGIN');try{const r=[];for(const i of items)r.push(await i.run());db.exec('COMMIT');return r;}catch(e){db.exec('ROLLBACK');throw e;}}};}
+export function adapter(db) {
+  function statement(sql, values = []) {
+    return {
+      bind(...next) { return statement(sql, next); },
+      async first() { return db.prepare(sql).get(...values) || null; },
+      async all() { return { results: db.prepare(sql).all(...values) }; },
+      async run() { const result = db.prepare(sql).run(...values); return { meta: { changes: Number(result.changes) } }; }
+    };
+  }
+  return {
+    prepare(sql) { return statement(sql); },
+    async batch(items) {
+      db.exec('BEGIN');
+      try { const results = []; for (const item of items) results.push(await item.run()); db.exec('COMMIT'); return results; }
+      catch (error) { db.exec('ROLLBACK'); throw error; }
+    }
+  };
+}
